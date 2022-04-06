@@ -33,11 +33,11 @@ def slice_and_dice(text: str = TEXT) -> list:
 
         # check if the first character is lowercase,
         # if so, split the line into words and get the last word
-        if islower(result[:1]):
+        if islower(result[0]):
             result = line.split(' ')[-1]
 
             # strip off BOTH the trailing dot (.) and exclamation mark (!) from this last word
-            result = result.rstrip('!').rstrip('.')
+            result = result.rstrip('!.')
 
             # and finally add it to the results list.
             results.append(result)
