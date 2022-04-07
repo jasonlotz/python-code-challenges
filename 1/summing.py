@@ -1,11 +1,4 @@
 def sum_numbers(numbers=None):
-
     if numbers is None:
-        numbers = range(0, 101)
-
-    result = 0
-
-    for number in numbers:
-        result += number
-
-    return result
+        numbers = range(1, 101)
+    return sum(numbers)
