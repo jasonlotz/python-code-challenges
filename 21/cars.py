@@ -1,3 +1,4 @@
+from itertools import chain
 from typing import Dict, List
 
 cars = {
@@ -25,11 +26,7 @@ def get_first_model_each_manufacturer(cars: CarsType = cars) -> List[str]:
     manufacturer. Return the matching models in a list leaving the original
     ordering intact.
     """
-    result = []
-    for car_list in cars.values():
-        result.append(car_list[0])
-
-    return result
+    return [models[0] for models in cars.values()]
 
 
 def get_all_matching_models(
@@ -40,13 +37,11 @@ def get_all_matching_models(
     'grep' string which defaults to DEFAULT_SEARCH ('trail').
     Sort the resulting sequence alphabetically
     """
-    result = []
-    for car_list in cars.values():
-        for car in car_list:
-            if car.lower().find(grep.lower()) >= 0:
-                result.append(car)
-
-    return sorted(result)
+    grep = grep.lower()
+    models = list(chain.from_iterable(cars.values()))
+    matching_models = [model for model in models
+                       if grep in model.lower()]
+    return sorted(matching_models)
 
 
 def sort_car_models(cars: CarsType = cars) -> CarsType:
@@ -54,8 +49,5 @@ def sort_car_models(cars: CarsType = cars) -> CarsType:
     Loop through the cars dict returning a new dict with the
     same keys and the values sorted alphabetically.
     """
-    result = {}
-    for manufacturer, car_list in cars.items():
-        result[manufacturer] = sorted(car_list)
-
-    return result
+    return {manufacturer: sorted(models) for
+            manufacturer, models in cars.items()}
