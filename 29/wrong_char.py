@@ -1,6 +1,5 @@
 def get_index_different_char(chars):
-    alpha_idx = []
-    non_alpha_idx = []
+    alpha_idx, non_alpha_idx = [], []
 
     for i, char in enumerate(chars):
         char = str(char)
@@ -10,7 +9,4 @@ def get_index_different_char(chars):
         else:
             non_alpha_idx.append(i)
 
-    if len(alpha_idx) < len(non_alpha_idx):
-        return alpha_idx[0]
-    else:
-        return non_alpha_idx[0]
+    return alpha_idx[0] if len(alpha_idx) < len(non_alpha_idx) else non_alpha_idx[0]
