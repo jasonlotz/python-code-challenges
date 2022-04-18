@@ -28,8 +28,8 @@ def get_movie_longest_runtime():
     result = ('', 0)
 
     for element in get_tree().iter('movie'):
-        if int(element.attrib['runtime'].split()[0]) > result[1]:
-            result = (element.attrib['title'],
-                      int(element.attrib['runtime'].split()[0]))
+        new_runtime = int(element.attrib['runtime'].split()[0])
+        if new_runtime > result[1]:
+            result = (element.attrib['title'], new_runtime)
 
     return result[0]
