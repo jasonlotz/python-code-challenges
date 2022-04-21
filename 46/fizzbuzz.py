@@ -10,7 +10,7 @@ def fizzbuzz(num: int) -> Union[str, int]:
     elif num % 5 == 0:
         return 'Buzz'
     else:
-        return ''
+        return num
 
 if __name__ == '__main__':
-    print(fizzbuzz(100))
+    print(fizzbuzz(16))
