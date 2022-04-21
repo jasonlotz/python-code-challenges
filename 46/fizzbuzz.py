@@ -2,15 +2,15 @@ from typing import Union
 
 
 def fizzbuzz(num: int) -> Union[str, int]:
-    for i in range(1, num+1):
-        if i % 3 == 0 and i % 5 == 0:
-            print ('FizzBuzz')
-        elif i % 3 == 0:
-            print ('Fizz')
-        elif i % 5 == 0:
-            print ('Buzz')
-        else:
-            print (i)
+
+    if num % 3 == 0 and num % 5 == 0:
+        return 'FizzBuzz'
+    elif num % 3 == 0:
+        return 'Fizz'
+    elif num % 5 == 0:
+        return 'Buzz'
+    else:
+        return ''
 
 if __name__ == '__main__':
-    fizzbuzz(100)
+    print(fizzbuzz(100))
