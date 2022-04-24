@@ -1,3 +1,4 @@
+import pprint
 from collections import namedtuple
 
 import feedparser
@@ -11,8 +12,10 @@ Game = namedtuple('Game', 'title link')
 def get_games():
     """Parses Steam's RSS feed and returns a list of Game namedtuples"""
     feed = feedparser.parse(FEED_URL)
+
     return [Game(entry.title, entry.link)
             for entry in feed.entries]
 
 if __name__ == "__main__":
-    print(get_games())
+    pp = pprint.PrettyPrinter(depth=1)
+    pp.pprint(get_games())
