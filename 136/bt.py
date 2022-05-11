@@ -54,7 +54,7 @@ def check_bt(donor, recipient):
 
     comp_check = _particular_antigen_comp(donor_int, recipient_int)
 
-    return comp_check[0] >= 0 and comp_check[1] >= 0 and comp_check[2] >= 0
+    return all(x >= 0 for x in comp_check)
 
 
 def convert_to_int(bt):
