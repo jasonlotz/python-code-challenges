@@ -14,8 +14,6 @@ def get_person_age(name):
     """
     chained_map = collections.ChainMap(group3, group2, group1)
 
-    for k, v in chained_map.items():
-        if isinstance(name, str) and name.lower() == k:
-            return v
+    name = name.lower() if isinstance(name, str) else name
 
-    return NOT_FOUND
+    return chained_map.get(name, NOT_FOUND)
