@@ -4,6 +4,5 @@ def sort_words_case_insensitively(words):
         numbers you only need to check the first char of the word)
     """
     result = sorted(words, key=lambda x: (x[0].isdigit(), x.lower()))
-    print(result)
 
     return result
