@@ -6,7 +6,5 @@ def round_up_or_down(transactions, up=True):
        If up=True (default) round up, else round down.
        Return a new list of rounded values
     """
-    if up:
-        return [math.ceil(transaction) for transaction in transactions]
-    else:
-        return [math.floor(transaction) for transaction in transactions]
+    func = math.ceil if up else math.floor
+    return [func(t) for t in transactions]
