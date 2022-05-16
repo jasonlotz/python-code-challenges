@@ -7,7 +7,7 @@ def count_dirs_and_files(directory='.'):
     """
     dirs_count = 0
     files_count = 0
-    for root, dirs, files in os.walk(directory):
+    for _, dirs, files in os.walk(directory):
         dirs_count += len(dirs)
         files_count += len(files)
 
