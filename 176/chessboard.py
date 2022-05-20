@@ -9,8 +9,8 @@ def create_chessboard(size=8):
        Don't return anything, print the output to stdout"""
     repeat_count = int(size / 2)
 
-    for line in range(0, size):
-        if line % 2 == 0:
-            print(f'{WHITE}{BLACK}' * repeat_count)
-        else:
+    for line in range(size):
+        if line % 2:
             print(f'{BLACK}{WHITE}' * repeat_count)
+        else:
+            print(f'{WHITE}{BLACK}' * repeat_count)
