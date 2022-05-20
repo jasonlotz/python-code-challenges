@@ -4,10 +4,8 @@ WHITE, BLACK = ' ', '#'
 def create_chessboard(size=8):
     """Create a chessboard with of the size passed in.
        Don't return anything, print the output to stdout"""
-    repeat_count = int(size / 2)
+    half_size = size // 2
 
-    for line in range(size):
-        if line % 2:
-            print(f'{BLACK}{WHITE}' * repeat_count)
-        else:
-            print(f'{WHITE}{BLACK}' * repeat_count)
+    for _ in range(half_size):
+        print(f'{WHITE}{BLACK}' * half_size)
+        print(f'{BLACK}{WHITE}' * half_size)
