@@ -7,9 +7,9 @@ def filter_names(names):
     result = []
 
     for name in names:
-        if len(result) >= MAX_NAMES or QUIT_CHAR == name[0]:
+        if len(result) >= MAX_NAMES or name.startswith(QUIT_CHAR):
             break
-        elif IGNORE_CHAR == name[0] or not name.isalpha():
+        elif name.startswith(IGNORE_CHAR) or not name.isalpha():
             continue
         else:
             result.append(name)
