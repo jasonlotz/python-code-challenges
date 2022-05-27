@@ -1,5 +1,6 @@
 def sum_numbers(numbers):
     """Sums numbers
+
     :param numbers: a list of numbers
     :type numbers: list
     :raises TypeError: if not all numeric values passed in
@@ -7,3 +8,6 @@ def sum_numbers(numbers):
     :rtype: int
     """
     pass
+
+
+print(f'\n{sum_numbers.__doc__.strip()}')
