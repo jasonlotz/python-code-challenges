@@ -42,4 +42,4 @@ def test_negative():
 
 def test__too_big():
     with pytest.raises(ValueError) as e:
-        list_to_decimal([100, ])
+        list_to_decimal([11, ])
