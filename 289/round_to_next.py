@@ -1,4 +1,5 @@
-def round_to_next(number: int, multiple: int):
-    mod = number % multiple
+from math import ceil
 
-    return number + multiple - mod if mod else number
+
+def round_to_next(number: int, multiple: int):
+    return ceil(number/multiple) * multiple
