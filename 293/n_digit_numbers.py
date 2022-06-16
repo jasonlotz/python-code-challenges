@@ -1,5 +1,3 @@
-import math
-
 from typing import List, TypeVar
 T = TypeVar('T', int, float)
 
@@ -17,7 +15,6 @@ def count_digit(n):
 
     while n != 0:
         n //= 10
-        print(n)
         count += 1
 
     return count
