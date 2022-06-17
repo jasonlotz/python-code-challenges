@@ -1,18 +1,9 @@
 from typing import List, Union
+from functools import reduce
 
 
 def join_lists(lst_of_lst: List[List[str]], sep: str) -> Union[List[str], None]:
-    result = []
+    if not lst_of_lst:
+        return None
 
-    for list_element in lst_of_lst:
-        for item in list_element:
-            result.append(item)
-        result.append(sep)
-
-    # hacky way to remove the last separator
-    if result:
-        result.pop()
-    else:
-        result = None
-
-    return result
+    return reduce(lambda x, y: x + [sep] + y, lst_of_lst)
