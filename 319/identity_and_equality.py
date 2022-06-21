@@ -32,7 +32,7 @@ class Car:
 
     @staticmethod
     def has_same_configuration(config1, config2):
-        if type(config1) is List or type(config2) is List:  # *
+        if not isinstance(config1, list) or not isinstance(config2, list):  # *
             raise TypeError()
         return config1 == config2  # *
 
