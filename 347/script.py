@@ -38,6 +38,3 @@ def get_hand_for_word(word: str) -> Hand:
         return Hand.LEFT
     else:
         return None
-
-
-print(get_hand_for_word("terret"))
