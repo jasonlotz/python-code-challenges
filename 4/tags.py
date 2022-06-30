@@ -1,7 +1,6 @@
 import os
 from collections import Counter
 import urllib.request
-import re
 import xml.etree.ElementTree as ET
 
 # prep
@@ -19,5 +18,6 @@ with open(tempfile) as f:
 def get_pybites_top_tags(n=10):
     """use Counter to get the top 10 PyBites tags from the feed
        data already loaded into the content variable"""
-    tags = re.findall("<category>([^<]+)</category>", content)
+    tree = ET.fromstring(content)
+    tags = (e.text for e in tree.findall(path=".//category"))
     return Counter(tags).most_common(n)
