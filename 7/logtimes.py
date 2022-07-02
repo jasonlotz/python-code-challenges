@@ -40,6 +40,3 @@ def time_between_shutdowns(loglines):
         if SHUTDOWN_EVENT in line:
             datetimes.append(convert_to_datetime(line))
     return max(datetimes) - min(datetimes)
-
-
-print(convert_to_datetime('INFO 2014-07-03T23:27:51 supybot Shutdown complete.'))
