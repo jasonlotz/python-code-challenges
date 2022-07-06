@@ -11,11 +11,11 @@ blog = dict(name='PyBites',
             site='https://pybit.es')
 
 # define namedtuple here
+BlogTuple = namedtuple('BlogTuple', blog)
 
 
 def dict2nt(dict_):
-    BlogTuple = namedtuple('BlogTuple', blog)
-    result = BlogTuple(**blog)
+    result = BlogTuple(**dict_)
 
     return result
 
