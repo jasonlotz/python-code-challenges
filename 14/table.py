@@ -8,8 +8,6 @@ SEPARATOR = ' | '
 
 
 def generate_table(*args):
-    result = []
-    zipped_items = zip(*args)
-    for item in zipped_items:
-        result.append(SEPARATOR.join((str(i) for i in item)))
-    return result
+    for seq in zip(*args):
+        seq = [str(val) for val in seq]
+        yield SEPARATOR.join(seq)
