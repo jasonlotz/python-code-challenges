@@ -29,20 +29,20 @@ class Promo:
         self.all_bites = BITES.copy()
         self.bites_done = BITES_DONE.copy()
 
+    @property
+    def available_bites(self):
+        return list(self.all_bites.keys() - self.bites_done)
+
     def _pick_random_bite(self):
-        bites_available = []
-        for b in BITES:
-            if b not in self.bites_done:
-                bites_available.append(b)
-        if bites_available:
-            return random.choice(bites_available)
-        else:
+        """Pick a random Bite that is not done yet, if all
+           Bites are done, raise a NoBitesAvailable exception"""
+        if not self.available_bites:
             raise NoBitesAvailable
+        return random.choice(self.available_bites)
 
     def new_bite(self):
-        if not self.bites_done:
-            raise NoBitesAvailable
-        else:
-            random_bite = self._pick_random_bite()
-            self.bites_done.add(random_bite)
-            return random_bite
+        """Get  a random Bite using _pick_random_bite,
+           add it to self.bites_done, then return it"""
+        bite = self._pick_random_bite()
+        self.bites_done.add(bite)
+        return bite
