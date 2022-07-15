@@ -47,13 +47,7 @@ def get_average_scores(directors):
        return a list of tuples (director, average_score) ordered by highest
        score in descending order. Only take directors into account
        with >= MIN_MOVIES"""
-    average_scores = []
-
-    for director, movies in directors.items():
-        if len(movies) < MIN_MOVIES:
-            continue
-        average_scores.append((director, calc_mean_score(movies)))
-
-    return sorted(average_scores,
-                  key=lambda t: t[1],
-                  reverse=True)
+    directors_dict = {director: calc_mean_score(movies)
+                      for director, movies in directors.items()
+                      if len(movies) >= MIN_MOVIES}
+    return sorted(directors_dict.items(), key=lambda x: x[1], reverse=True)
