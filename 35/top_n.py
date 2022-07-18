@@ -37,5 +37,4 @@ def get_latest_dates(dates, n=3):
 
 
 def get_highest_earnings(earnings_mln, n=3):
-    heapify = list(heapq.merge(earnings_mln, key=lambda i: i['earnings']))
-    return sorted(heapify, key=lambda i: i['earnings'], reverse=True)[:n]
+    return heapq.nlargest(n, earnings_mln, key=lambda x: x['earnings'])
