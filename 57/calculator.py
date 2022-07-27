@@ -1,85 +1,39 @@
-""" 
-Bite 57. Create a simple calculator that receives command line arguments
-"""
 import argparse
 from functools import reduce
+import operator
+
+operations = dict(add=sum,
+                  sub=lambda items: reduce(operator.sub, items),
+                  mul=lambda items: reduce(operator.mul, items),
+                  div=lambda items: reduce(operator.truediv, items))
 
 
 def calculator(operation, numbers):
     """TODO 1:
-    Create a calculator that takes an operation and list of numbers.
-    Perform the operation returning the result rounded to 2 decimals
+       Create a calculator that takes an operation and list of numbers.
+       Perform the operation returning the result rounded to 2 decimals"""
+    func = operations.get(operation.lower())
+    if not func:
+        raise ValueError('Invalid operation')
 
-    Parameters
-    ----------
-    operation : str
-
-    numbers : list
-
-    Returns
-    -------
-    float or int
-
-    Raises
-    ------
-    Exception
-        operation not found
-    """
-
-    if operation == 'add':
-        return round(sum(numbers), 2)
-
-    elif operation == 'sub':
-        return round(reduce(lambda x, y: x - y, numbers), 2)
-
-    elif operation == 'mul':
-        return round(reduce(lambda x, y: x * y, numbers), 2)
-
-    elif operation == 'div':
-        return round(reduce(lambda x, y: x / y, numbers), 2)
-
-    raise Exception('operation not found')
+    numbers = [float(num) for num in numbers]
+    return round(func(numbers), 2)
 
 
 def create_parser():
     """TODO 2:
-       Create an ArgumentParser adding the right arguments to pass the tests,
-       returns a argparse.ArgumentParser object
-    """
+       Create an ArgumentParser object:
+       - have one operation argument,
+       - have one or more integers that can be operated on.
+       Returns a argparse.ArgumentParser object.
+
+       Note that type=float times out here so do the casting in the calculator
+       function above!"""
     parser = argparse.ArgumentParser(description='A simple calculator')
-
-    parser.add_argument('-a',
-                        '--add',
-                        type=float,
-                        dest='add',
-                        action='store',
-                        nargs='+',
-                        help='Sums numbers')
-
-    parser.add_argument('-s',
-                        '--sub',
-                        type=float,
-                        dest='sub',
-                        action='store',
-                        nargs='+',
-                        help='Subtracts numbers')
-
-    parser.add_argument('-m',
-                        '--mul',
-                        type=float,
-                        dest='mul',
-                        action='store',
-                        nargs='+',
-                        help='Multiplies numbers')
-
-    parser.add_argument('-d',
-                        '--div',
-                        type=float,
-                        dest='div',
-                        action='store',
-                        nargs='+',
-                        help='Divides numbers')
-
+    parser.add_argument('-a', '--add', nargs='+', help="Sums numbers")
+    parser.add_argument('-s', '--sub', nargs='+', help="Subtracts numbers")
+    parser.add_argument('-m', '--mul', nargs='+', help="Multiplies numbers")
+    parser.add_argument('-d', '--div', nargs='+', help="Divides numbers")
     return parser
 
 
@@ -108,3 +62,7 @@ def call_calculator(args=None, stdout=False):
             print(res)
 
         return res
+
+
+if __name__ == '__main__':
+    call_calculator(stdout=True)
