@@ -4,42 +4,22 @@ SUITS = 'Red Green Yellow Blue'.split()
 
 UnoCard = namedtuple('UnoCard', 'suit name')
 
-color_card_count = {
-    '0': 1,
-    '1': 2,
-    '2': 2,
-    '3': 2,
-    '4': 2,
-    '5': 2,
-    '6': 2,
-    '7': 2,
-    '8': 2,
-    '9': 2,
-    'Skip': 2,
-    'Reverse': 2,
-    'Draw Two': 2,
-}
-
-non_color_card_count = {
-    'Wild': 4,
-    'Wild Draw Four': 4
-}
-
 
 def create_uno_deck():
     """Create a deck of 108 Uno cards.
        Return a list of UnoCard namedtuples
        (for cards w/o suit use None in the namedtuple)"""
-    deck = []
-    # add suited cards
-    for color in SUITS:
-        for i in color_card_count.items():
-            for j in range(i[1]):
-                deck.append(UnoCard(color, i[0]))
+    singles = [0]
+    doubles = list(range(1, 10)) * 2
+    special = ['Draw Two', 'Skip', 'Reverse'] * 2
 
-    # add non-suited cards
-    for i in non_color_card_count.items():
-        for j in range(i[1]):
-            deck.append(UnoCard(None, i[0]))
+    cards_suit = singles + doubles + special
 
-    return deck
+    all_suits = [UnoCard(suit, str(card))
+                 for suit in SUITS
+                 for card in cards_suit]
+
+    wilds = [UnoCard(suit=None, name=name)
+             for name in ['Wild', 'Wild Draw Four'] * 4]
+
+    return all_suits + wilds
