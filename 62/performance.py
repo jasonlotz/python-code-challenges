@@ -65,7 +65,10 @@ def list_inserts(n: int) -> List[int]:
 
 @timing
 def list_inserts_fast(n: int) -> Deque[int]:
-    return sorted(deque(range(n)), reverse=True)
+    deq: Deque[int] = deque()
+    for i in range(n):
+        deq.appendleft(i)
+    return deq
 
 
 @timing
@@ -78,4 +81,5 @@ def list_creation(n: int) -> List[int]:
 
 @timing
 def list_creation_fast(n: int) -> Generator[int, None, None]:
-    return [i for i in range(n)]
+    for i in range(n):
+        yield i
