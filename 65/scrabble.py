@@ -22,17 +22,11 @@ with open(DICTIONARY) as f:
 
 
 def get_possible_dict_words(draw):
-    words = []
-    poss = _get_permutations_draw(draw)
-    [words.append(''.join(p).lower())
-     for p in poss if ''.join(p).lower() in dictionary]
-    return words
+    permutations = map(''.join, _get_permutations_draw(draw))
+    return set(permutations) & dictionary
 
 
 def _get_permutations_draw(draw):
-    result = []
-
+    lowered = ''.join(draw).lower()
     for i in range(1, len(draw) + 1):
-        result += list(itertools.permutations(draw, i))
-
-    return result
+        yield from itertools.permutations(lowered, i)
