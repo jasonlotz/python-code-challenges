@@ -1,8 +1,7 @@
 import pytz
-from datetime import datetime, timedelta
-from typing import List
 
-MEETING_HOURS = range(6, 23)  # meet from 6 - 22 max
+MIN_MEETING_HOUR = 6
+MAX_MEETING_HOUR = 22
 TIMEZONES = set(pytz.all_timezones)
 
 
@@ -12,26 +11,18 @@ def within_schedule(utc, *timezones):
     they are all within MIN_MEETING_HOUR and MAX_MEETING_HOUR
     (both included).
     """
-    if not all([t in TIMEZONES for t in timezones]):
-        raise ValueError
+    utc_aware = utc.replace(tzinfo=pytz.utc)
 
-    seconds_in_hour = 60 * 60
-    results = []
+    localized_times = []
 
-    utc_tz = pytz.timezone('UTC')
-    for timezone in timezones:
-        current_tz = pytz.timezone(timezone)
+    for tz in timezones:
+        if tz not in TIMEZONES:
+            raise ValueError('not a valid timezone')
 
-        v1 = utc_tz.localize(utc)
-        v2 = current_tz.localize(utc)
+        tz = pytz.timezone(tz)
+        localized_times.append(utc_aware.astimezone(tz))
 
-        hours = abs((v1 - v2).total_seconds()) / seconds_in_hour
-
-        if v1 > v2:
-            diff = v1 + timedelta(hours=hours)
-            results.append(diff.hour in MEETING_HOURS)
-        else:
-            diff = v1 - timedelta(hours=hours)
-            results.append(diff.hour in MEETING_HOURS)
-
-    return all(results)
+    return all(
+        MIN_MEETING_HOUR <= dt.hour <= MAX_MEETING_HOUR
+        for dt in localized_times
+    )
