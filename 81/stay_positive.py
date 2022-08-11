@@ -1,4 +1,5 @@
 from collections import namedtuple
+from operator import attrgetter, lt, gt
 
 Tweet = namedtuple('Tweet', 'text polarity')
 
@@ -30,13 +31,11 @@ tweets = [
 def filter_tweets_on_polarity(tweets, keep_positive=True):
     """Filter the tweets by polarity score, receives keep_positive bool which
        determines what to keep. Returns a list of filtered tweets."""
-    if keep_positive:
-        return [tweet for tweet in tweets if tweet.polarity > 0]
-    else:
-        return [tweet for tweet in tweets if tweet.polarity < 0]
+    comp = gt if keep_positive else lt
+    return [tweet for tweet in tweets if comp(tweet.polarity, 0)]
 
 
 def order_tweets_by_polarity(tweets, positive_highest=True):
     """Sort the tweets by polarity, receives positive_highest which determines
        the order. Returns a list of ordered tweets."""
-    return sorted(tweets, key=lambda tweet: tweet.polarity, reverse=positive_highest)
+    return sorted(tweets, reverse=positive_highest, key=attrgetter("polarity"))
