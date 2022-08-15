@@ -12,7 +12,7 @@ class Score(Enum):
 
     @classmethod
     def average(cls):
-        return mean([score.value for score in Score])
+        return mean([score.value for score in cls])
 
     def __str__(self):
         return f'{self.name} => {THUMBS_UP * self.value}'
