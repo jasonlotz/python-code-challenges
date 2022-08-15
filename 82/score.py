@@ -10,7 +10,8 @@ class Score(Enum):
     ADVANCED = 4
     CHEATED = 1
 
-    def average():
+    @classmethod
+    def average(cls):
         return mean([score.value for score in Score])
 
     def __str__(self):
