@@ -1,18 +1,8 @@
-from statistics import mean
-from enum import Enum
-
-THUMBS_UP = '👍'  # in case you go f-string ...
-
-
-class Score(Enum):
-    BEGINNER = 2
-    INTERMEDIATE = 3
-    ADVANCED = 4
-    CHEATED = 1
-
-    @classmethod
-    def average(cls):
-        return mean([score.value for score in cls])
-
-    def __str__(self):
-        return f'{self.name} => {THUMBS_UP * self.value}'
+def flatten(list_of_lists):
+    '''Use recursion: if list or tuple call self = go one level deeper,
+       if base case return it. Using yield (generator) for convenience'''
+    for item in list_of_lists:
+        if type(item) in (list, tuple):
+            yield from flatten(item)
+        else:
+            yield item
