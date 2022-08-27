@@ -18,9 +18,18 @@ def get_num_words_spoken_by_character_per_episode(content):
     """Receives loaded csv content (str) and returns a dict of
        keys=characters and values=Counter object,
        which is a mapping of episode=>words spoken"""
-    words = defaultdict(Counter)
-    reader = csv.DictReader(content.splitlines())
+    """Receives loaded csv content (str) and returns a dict of
+       keys=characters and values=Counter object,
+       which is a mapping of episode=>words spoken"""
+    reader = csv.DictReader(content.splitlines(), delimiter=',')
+
+    # nested collections: https://stackoverflow.com/a/5029958
+    words_spoken = defaultdict(lambda: Counter())
+
     for row in reader:
-        words[row['Character']
-              ] += Counter({row['Episode']: len(row['Line'].split())})
-    return words
+        episode = row['Episode']
+        character = row['Character']
+        words = row['Line'].rstrip().split()
+        words_spoken[character][episode] += len(words)
+
+    return words_spoken
