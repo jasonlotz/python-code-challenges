@@ -19,22 +19,16 @@ TIME_OFFSETS = (
 def pretty_date(date):
     """Receives a datetime object and converts/returns a readable string
        using TIME_OFFSETS"""
-    if not isinstance(date, datetime):
-        raise ValueError("The provided value is not a datetime")
+    if not isinstance(date, datetime) or date > NOW:
+        raise ValueError('expecting past datetime')
 
-    if date > NOW:
-        raise ValueError("The provided date cannot be greater than now")
+    # using total_seconds because seconds only goes till max 1 day
+    seconds = int((NOW - date).total_seconds())
 
-    time = NOW - date
-    total_seconds = time.total_seconds()
-
-    for time_offset in TIME_OFFSETS:
-        # offset = (total_seconds / time_offset.offset) * time_offset.offset
-
-        if total_seconds < time_offset.offset:
-            if time_offset.divider:
-                return time_offset.date_str.format(int(total_seconds / time_offset.divider))
-            else:
-                return time_offset.date_str.format(int(total_seconds))
-
-    return date.strftime('%m/%d/%y')
+    for time in TIME_OFFSETS:
+        if seconds < time.offset:
+            amount = time.divider and int(seconds/time.divider) or seconds
+            return time.date_str.format(amount)
+    else:
+        # beyond yesterday just print date string
+        return date.strftime('%m/%d/%y')
