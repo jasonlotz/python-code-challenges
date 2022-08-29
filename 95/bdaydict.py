@@ -6,9 +6,10 @@ class BirthdayDict(dict):
        the same birthday (day+month) as somebody already in the dict"""
 
     def __setitem__(self, name, birthday):
-        for date in self.values():
-            if date.month == birthday.month and date.day == birthday.day:
-                print(MSG.format(name))
-                break
+        has_birthday = any(birthday.strftime('%d/%m') == dt.strftime('%d/%m')
+                           for dt in self.values())
 
-        super(BirthdayDict, self).__setitem__(name, birthday)
+        if has_birthday:
+            print(MSG.format(name))
+
+        super().__setitem__(name, birthday)
