@@ -25,12 +25,14 @@ def get_us_bank_holidays(content=content):
        holiday table (css class = list-table), and return a dict of
        keys -> months and values -> list of bank holidays"""
     soup = BeautifulSoup(content, 'html.parser')
-    month = ''
-    for each in soup.body.table.find_all(['time', 'a']):
-        t = each.string.extract()
-        if t[5:7].isdigit():
-            month = t[5:7]
-        else:
-            holidays[month].append(t.strip())
+    table = soup.find_all("table", class_="list-table")
+
+    # start at 2nd item ignoring header
+    for tr in table[0].find_all('tr')[1:]:
+        time = tr.find('time')
+        href = tr.find('a')
+        day = href.text.strip()
+        yy, mm, dd = time.text.split('-')  # or use dt.striptime
+        holidays[mm].append(day)
 
     return holidays
