@@ -1,13 +1,11 @@
-import string
-from itertools import islice
+from itertools import cycle
+from string import ascii_uppercase
 
 
 def sequence_generator():
-    letters = string.ascii_uppercase
-    numbers = range(1, len(letters)+1)
-    while True:
-        i = 0
-        while i < 26:
-            yield numbers[i]
-            yield letters[i]
-            i += 1
+    numbers = cycle(range(1, len(ascii_uppercase) + 1))
+    letters = cycle(ascii_uppercase)
+
+    for number, letter in zip(numbers, letters):
+        yield number
+        yield letter
