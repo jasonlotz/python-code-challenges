@@ -1,6 +1,14 @@
+"""Color class
+
+The following sites were consulted:
+    http://www.99colors.net/
+    https://www.webucator.com/blog/2015/03/python-color-constants-module/
+"""
 import os
 import sys
 import urllib.request
+
+from string import hexdigits
 
 # PREWORK (don't modify): import colors, save to temp file and import
 tmp = os.getenv("TMP", "/tmp")
@@ -17,47 +25,46 @@ from color_values import COLOR_NAMES  # noqa E402
 
 class Color:
     """Color class.
+
     Takes the string of a color name and returns its RGB value.
     """
 
     def __init__(self, color):
-        self.color = color.upper()
-        try:
-            self.rgb = COLOR_NAMES[self.color]
-        except KeyError:
-            self.rgb = None
+        self.color = color
+        self.rgb = COLOR_NAMES.get(self.color.upper(), None)
 
     @staticmethod
-    def hex2rgb(hex):
-        """Class method that converts a hex value into an rgb one"""
-        hex = hex.lstrip('#')
-        hlen = 6
+    def hex2rgb(hex_value):
+        """Converts a hex value into an rgb one"""
+        error_message = f"{hex_value} is not a valid hex value!"
 
-        try:
-            result = tuple(int(hex[i:i + int(hlen / 3)], 16)
-                           for i in range(0, hlen, int(hlen / 3)))
-        except ValueError:
-            raise ValueError
-            pass
-        return result
+        for char in hex_value[1:]:
+            if char not in hexdigits:
+                raise ValueError(error_message)
+
+        if not len(hex_value) == 7 or not hex_value.startswith("#"):
+            raise ValueError(error_message)
+
+        return tuple(int(hex_value[i:i + 2], 16) for i in (1, 3, 5))
 
     @staticmethod
-    def rgb2hex(rgb):
-        """Class method that converts an rgb value into a hex one"""
-        if int(rgb[0]) > 255 or int(rgb[1]) > 255 or int(rgb[2]) > 255:
-            raise ValueError
-        if int(rgb[0]) < 0 or int(rgb[1]) < 0 or int(rgb[2]) < 0:
-            raise ValueError
-        return "#{:02x}{:02x}{:02x}".format(rgb[0], rgb[1], rgb[2])
+    def rgb2hex(rgb_value):
+        """Converts an rgb value into a hex one"""
+        error_message = f"{rgb_value} is not a valid RGB value!"
+
+        if not isinstance(rgb_value, tuple):
+            raise ValueError(error_message)
+
+        valid = [1 for n in rgb_value if not (0 <= n <= 255)]
+        if sum(valid) > 0:
+            raise ValueError(error_message)
+
+        return f"#{rgb_value[0]:02x}{rgb_value[1]:02x}{rgb_value[2]:02x}"
 
     def __repr__(self):
         """Returns the repl of the object"""
-        return f"{str(self.__class__.__name__)}('{self.color.lower()}')"
+        return f"Color('{self.color}')"
 
     def __str__(self):
         """Returns the string value of the color object"""
-        if self.rgb is None:
-            message = 'Unknown'
-        else:
-            message = str(self.rgb)
-        return message
+        return f"{self.rgb}" if self.rgb else "Unknown"
